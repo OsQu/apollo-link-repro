@@ -8,7 +8,9 @@ const typeDefs = gql`
 
 const resolvers = {
     Query: {
-        test: () => "This is a test value"
+        test: () => new Promise(resolve => {
+          setTimeout(() => resolve("This is a test value"), randomNumber(5) * 1000)
+        })
     }
 }
 
@@ -17,3 +19,10 @@ const server = new ApolloServer({ typeDefs, resolvers })
 server.listen(4000).then(({url}) => {
     console.log(`Server started at ${url} `)
 })
+
+/**
+ * Returns random number between 0 and max
+ */
+function randomNumber(max) {
+  return Math.floor(Math.random() * max)
+}
